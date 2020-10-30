@@ -1,0 +1,339 @@
+\documentclass[punct=kaiming, fontset=sikou]{ctexbook}
+\usepackage{amsmath,mathtools}
+\renewcommand{\theequation}{\thesection.\arabic{equaiton}}
+\numberwithin{equation}{section}
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+
+\usepackage{unicode-math}
+\setmainfont{cmun}[
+  Extension       = .otf,
+  UprightFont     = *rm,
+  ItalicFont      = *ti,
+  SlantedFont     = *sl,
+  BoldFont        = *bx,
+  BoldItalicFont  = *bi,
+  BoldSlantedFont = *bl,
+]
+\setsansfont{cmun}[
+  Extension      = .otf,
+  UprightFont    = *ss,
+  ItalicFont     = *si,
+  BoldFont       = *sx,
+  BoldItalicFont = *so,
+]
+\setmonofont{cmun}[
+  Extension      = .otf,
+  UprightFont    = *btl,
+  ItalicFont     = *bto,
+  BoldFont       = *tb,
+  BoldItalicFont = *tx,
+]
+\setmathfont{Latin Modern Math}
+
+\usepackage{calc,enumitem}
+\usepackage{pifont}
+\usepackage{graphicx}
+\newlength{\labellengthi}
+\setlength{\labellengthi}{0pt}
+\newlength{\labellengthii}
+\setlength{\labellengthii}{0pt}
+\setlist[enumerate,1]{leftmargin=0pt,labelsep=0pt,itemindent=2\ccwd+\the\labellengthi+0.6pt,parsep=0pt,itemsep=0pt,topsep=0pt,partopsep=0pt,listparindent=2\ccwd}
+\setlist[enumerate,2]{leftmargin=0pt,labelsep=2pt,itemindent=2\ccwd+\the\labellengthii+4pt,parsep=0pt,itemsep=0pt,topsep=0pt,partopsep=0pt,listparindent=2\ccwd}
+
+\def\setmytheenumi#1{\def\mytheenumi{#1}\setlength{\labellengthi}{\widthof{\mytheenumi}}}
+\def\setmytheenumii#1{\def\mytheenumii{#1}\setlength{\labellengthii}{\widthof{\mytheenumii}}}
+
+\def\mytheenumi{\theenumi}
+\def\mytheenumii{\theenumii}
+
+\renewcommand\theenumi{\arabic{enumi}}
+\renewcommand\theenumii{\arabic{enumii}}
+
+\def\labelenumi{\mytheenumi}
+\setlength{\labellengthi}{\widthof{\mytheenumi}}
+\def\labelenumii{\mytheenumii}
+\setlength{\labellengthii}{\widthof{\mytheenumii}}
+
+\setmytheenumi{（\theenumi）}
+\setmytheenumii{\ding{\numexpr171+\value{enumii}}}
+\makeatletter
+\newenvironment{abstract}{%
+  \small%
+  \begin{center}%
+    {\bfseries 内　容　简　介}\vspace{-.5em}\vspace{\z@}%
+  \end{center}\par}{\par}
+\makeatother
+
+\def\TT{\symup{T}}
+\def\bf#1{\symbfit{#1}}
+\def\bb#1{\symbb{#1}}
+\def\bup#1{\symbfup{#1}}
+\def\hccwd{\hspace*{\ccwd}}
+\DeclareMathOperator{\diag}{diag}
+
+
+\title{矩阵分析与应用（第2版）\\\textsc{Matrix Analysis And Applications} (Second Edition)}
+\author{张贤达　著\\Zhang Xianda}
+\date{2013 年 11 月}
+\begin{document}
+  \frontmatter
+  \maketitle
+  \begin{abstract}
+    本书系统、全面地介绍矩阵分析的主要理论、具有代表性的方法及一些典型应用。全书共10章，内容包括矩阵代数基础、特殊矩阵、矩阵微分、梯度分析与最优化、奇异值分析、矩阵方程求解、特征分析、子空间分析与跟踪、投影分析、张量分析。前3章为全书的基础，组成矩阵代数；后7章介绍矩阵分析的主体内容及典型应用。为了方便读者对数学理论的理解以及培养应用矩阵分析进行创新应用的能力，本书始终贯穿一条主线——物理问题“数学化”，数学结果“物理化”。与第~1版相比，本书的篇幅有明显的删改和压缩，大量补充了近几年发展迅速的矩阵分析新理论、新方法及新应用。
+
+    本书为北京市高等教育精品教材重点立项项目，适合于需要矩阵知识比较多的理科和工科尤其是信息科学与技术（电子、通信、自动控制、计算机、系统工程、模式识别、信号处理、生物医学、生物信息）等各学科有关教师、研究生和科技人员教学、自学或进修之用。
+  \end{abstract}
+
+  \chapter{第2版序言}
+  《矩阵分析与应用》于2004年10月出版以来，已先后印刷发行14300册，2008年获清华大学优秀教材一等奖，2011年获北京市高等教育精品教材重点项目资助；截至2013年8月，已被SCI他引220余次，Google学术搜索他引740余次，CNKI中国引文数据库他引1400余次。
+
+  最近几年，矩阵理论经历了巨大的变化：矩阵分析的理论和方法在物理、力学、信号处理、图像处理、无线通信、计算机视觉、机器学习、生物信息学、医学图像处理、自动控制、系统工程、航空航天等学科中获得了广泛的应用，有力地推动了这些学科的创新研究。同时，这些学科的新应用又催生了矩阵分析的一批新理论和新方法。
+
+  为了适应矩阵分析与应用的新发展，根据从2004年在清华大学开设的研究生学位课程“矩阵分析与应用”的课堂教学实践，笔者对《矩阵分析与应用》一书进行了重大修改。修改的主要宗旨是：以工学和工程应用为主要背景，论述矩阵分析的典型理论、方法和应用；同时重点介绍最近几年涌现出来的矩阵分析的新理论、新方法与新应用。为了方便读者对数学理论的理解以及培养应用矩阵分析进行创新应用的能力，本书的修改始终贯穿一条主线——物理问题“数学化”，数学结果“物理化”：从物理问题的数学建模出发，引出矩阵问题；对得到的矩阵分析结果尽可能给予物理解释，赋予其物理含义。
+
+  新版仍由10章组成，内容可以分为以下两部分。
+
+  第~1部分为“矩阵代数”：包括矩阵代数基础（第~1章）、特殊矩阵（第~2章）和矩阵微分（第~3章），共3章。
+
+  第~2部分为“矩阵分析与应用”：包括梯度分析与最优化（第~4章）、奇异值分析（第~5章）、矩阵方程求解（第~6章）、特征分析（第~7章）、子空间分析与跟踪（第~8章）、投影分析（第~9章）和张量分析（第~10章），共7章。
+
+  与第~1版相比，第~2版的主要修订内容如下：
+  \begin{enumerate}
+    \item 章的变动：删去了第~1版的“Toeplitz矩阵”（第~3章）和“矩阵的变换与分解”（第~4章）两章，增设了“矩阵微分”（第~3章）和“张量分析”（第~10章）两章；另将第~1版的“总体最小二乘方法”（第~7章）加以大量修改和扩充，更名为“矩阵方程求解”（第~2版第~6章）。
+    \item 删除的主要内容：
+    \begin{enumerate}
+      \item 比较容易和比较难的数学证明，前者变作习题，后者改为参阅有关参考文献；
+      \item 工学和工程中应用比较窄的一些矩阵分析理论和方法；
+      \item 专业性比较强的应用举例。
+    \end{enumerate}
+    \item 新增矩阵分析与应用的主要内容：
+    \begin{enumerate}
+      \item 稀疏表示与压缩感知（1.12~节）；
+      \item 矩阵微分与梯度矩阵辨识、Hessian矩阵辨识（第~3章）；
+      \item 凸优化理论（4.3节）、平滑凸优化的一阶算法（4.4节）、非平滑凸优化的次梯度法（4.5节）、非平滑凸函数的平滑凸优化（4.6节）以及原始-对偶内点法（4.9节）；
+      \item 矩阵完备（5.6节）；
+      \item Tikhonov 正则化与正则Gauss-Seidel法（6.2节）；
+      \item 非负矩阵分解（6.6和6.7节）；
+      \item 稀疏矩阵方程求解（6.8和6.9节）；
+      \item 张量分析及非负张量分解（第10章）。
+    \end{enumerate}
+  \end{enumerate}
+  它们多数是近几年发展迅速的矩阵分析新理论、新方法及新应用。
+
+  虽然本书增加了大量新内容，但是由于删除、修改了更多的内容，所以全书的篇幅反而有比较明显的缩减。
+
+  在“矩阵分析与应用”研究生学位课程的教学实践和本书的修订中，韩芳明、李细林、李剑、苏泳涛、丁子哲、高秋彬、王银、常冬霞、王曦元、陈忠、栾天祥等博士和邹红星教授提供了一些很好的建议；王银、陈忠和郑亮为本书绘制了部分插图。符玺、毛洪亮、石群、周游、金成等博士研究生和杨哲硕士研究生认真校对了本书初稿。在此一并向他们表示谢意！
+
+  本书的修订得到了国家自然科学基金委重大研究项目和多个基金项目、教育部博士点专项基金、清华信息科学与技术国家实验室、国防重点实验室基金、航天支撑技术基金以及Intel公司等的课题资助。
+
+  全书由笔者使用 \LaTeX 撰写及排版，多数插图也由笔者用 \LaTeX 绘制。
+  \begin{flushright}
+    \fangsong
+    \begin{tabular}{c@{}}
+      张　贤　达\\
+      {\small 2013年8月于清华大学}
+    \end{tabular}\hspace*{2\ccwd}
+  \end{flushright}
+
+  \chapter{首版前言}
+  矩阵不仅是各数学学科，而且也是许多理工学科的重要数学工具。就其本身的研究而言，矩阵理论和线性代数也是极富创造性的领域。它们的创造性又极大地推动和丰富了其他众多学科的发展：许多新的理论、方法和技术的诞生与发展就是矩阵理论和线性代数的创造性应用与推广的结果。可以毫不夸张地说，矩阵理论和线性代数在物理、力学、信号与信息处理、通信、电子、系统、控制、模式识别、土木、电机、航空和航天等众多学科中是最富创造性和灵活性，并起着不可替代作用的数学工具。
+
+  作者在从事信号处理、神经计算、通信和模式识别的长期科学研究中，深刻感受到矩阵分析在科学研究中所起的重要作用，并体现在作者和合作者在国际权威和著名杂志发表的一系列论文中。另一方面，在十余年的研究生教学中，笔者对工科尤其是信息科学与技术各学科的研究生在矩阵理论与线性代数方面知识的不足与欠缺颇有体会。矩阵分析理论与方法的重要性，以及作者的教学和研究体会，催发了作者著作本书的意愿。虽然作者的《信号处理中的线性代数》一书曾由科学出版社于1997年出版，但本书无论是在体系结构上，还是在内容的组织与安排上，都与《信号处理中的线性代数》大不相同。
+
+  国内外出版了不少深受读者喜爱的矩阵理论和线性代数的书籍，而本书试图从一个新的角度，提出从矩阵的梯度分析、奇异值分析、特征分析、子空间分析、投影分析出发，构筑论述矩阵分析的一个新体系。此外，在国内外的有关书籍中，涉及矩阵理论和线性代数的应用时，一般都侧重于某一、二个特定的学科，本书则介绍矩阵分析在数理统计、数值计算、信号处理、电子、通信、模式识别、神经计算、系统科学等多学科中的大量生动应用。鉴于本书介绍的理论与应用的广泛性，故取名《矩阵分析与应用》。
+
+  全书共分10章，其主要内容可概括如下：
+  \begin{enumerate}
+    \item 矩阵分析的基础知识（第$1\sim4$章）：矩阵与线性方程组、特殊矩阵、Toeplitz矩阵、矩阵的变换与分解。
+    \item 梯度分析（第5章）：包括一阶梯度和二阶梯度的计算，以及实现最优化的梯度算法及其重要改进（递推最小二乘算法、共轭梯度算法、仿射投影算法和自然梯度算法）。
+    \item 矩阵的奇异值分析（第$6\sim7$章）：第6章介绍奇异值分解及其各种推广（乘积奇异值分解、广义奇异值分解、约束奇异值分解、结构奇异值）。第7章是奇异值分解在线性代数中的应用，介绍总体最小二乘方法、约束总体最小二乘、结构总体最小二乘。
+    \item 矩阵的特征分析（第8章）：包含矩阵的特征值分解以及各种推广（广义特征值分解、Rayleigh商、广义Rayleigh商、二次特征值问题、矩阵的联合对角化）。
+    \item 子空间分析（第9章）：子空间的构造、特征子空间分析方法、子空间的跟踪。
+    \item 投影分析（第10章）：包含沿着矩阵的基本空间（列空间或者行空间），到另一基本空间的正交投影和斜投影。
+  \end{enumerate}
+
+  本书试图在以下方面形成特点：
+  \begin{enumerate}
+    \item 加大选材的广度和深度，充分体现内容的新颖性和先进性。为了与矩阵理论的国际新发展“接轨”，书中系统地介绍了矩阵分析的一些新领域、新理论和新方法，如总体最小二乘方法及其推广，二次特征值问题，矩阵的联合对角化，斜投影，子空间方法，仿射投影算法和自然梯度算法等。
+    \item 突出矩阵分析理论与科学技术应用的密切结合。本书在介绍每一种重要理论与方法的同时，都会选择介绍相应的应用。而在应用例子的选择上，则尽可能包括比较多的学科。事实上，本书的应用举例不仅涉及数理统计和数值计算等数学领域，更包括了信号处理、电子、通信、模式识别、神经计算、雷达、图像处理、系统辨识等信息科学与技术的不同学科与领域。
+    \item 强调创新能力的培养。书中介绍大量应用例子时，侧重于讲述应用的基本机理，其出发点是让读者体会矩阵分析的灵活性与创新性，学会如何使用矩阵分析的工具，进行创新研究。
+  \end{enumerate}
+
+  为便于读者理解重要的概念和方法，书中穿插了大量的例题。为了方便读者检验学习效果，全书在参考全国硕士研究生招生部分数学试题和其他有关文献的基础上，选编了340余道习题。此外，本书不仅汇总了矩阵分析有关的大量数学性质和公式，而且汇编了820余条索引，可供读者作为一本矩阵手册使用。
+
+  本书是从一个工科研究和教学人员的视角进行材料的选择和内容论述的。作者在著作本书的过程中，参考了大量的国外有关矩阵分析与线性代数的论文和著作，其中以SIAM的多种杂志为主要参考文献源；而应用的举例则主要参考IEEE的几家汇刊。虽然作者竭力而为，但囿于理解水平和能力，书中未能如愿乃至不妥，甚至错误之处可能不乏其例。在此，诚恳希望诸位专家、同仁和广大读者不吝赐教。
+
+  作者原本打算对《信号处理中的线性代数》一书作较大修改，最终变成了重写，始自本人在西安电子科技大学任特聘教授之际，完成于回到清华大学任教二年之后，历时四载有余。然而，本书系作者积十余年教学和二十余年科学研究之体会与成果而成，借此机会感谢教育部“长江学者奖励计划”、国家自然科学基金委重大研究项目和多个基金项目、教育部博士点专项基金、国防重点实验室基金、航天支撑技术基金以及Intel公司等的课题资助。
+
+  全书由笔者使用 \LaTeX 撰写及排版。
+  \begin{flushright}
+    \fangsong
+    \begin{tabular}{c@{}}
+      张　贤　达\\
+      {\small 2004年6月谨识于清华大学}
+    \end{tabular}\hspace*{2\ccwd}
+  \end{flushright}
+
+  \tableofcontents
+  \mainmatter
+  \chapter{矩阵代数基础}
+  在科学与工程中，经常会遇到求解线性方程组的问题。矩阵是描述和求解线性方程组最基本和最有用的数学工具。矩阵不仅有很多基本的数学运算（如转置、内积、外积、逆矩阵、广义逆矩阵等），而且还有多种重要的标量函数（如范数、二次型、行列式、特征值、秩和迹），更包含多种特殊运算（如直和、直积、Hadamard积、Kronecker积、向量化）。本章将介绍矩阵代数的这些基本知识。
+
+  \section{矩阵的基本运算}
+  首先引出矩阵和向量的概念，给出本书中经常使用的基本符号。
+  \subsection{矩阵与向量}
+  在科学和工程中，经常会遇到 $m \times n$ 线性方程组
+  \begin{equation}
+    \left.
+    \begin{array}{c}
+      a_{11} x_1 + a_{12} x_2 + \cdots + a_{1n} x_n = b_1\\
+      a_{21} x_1 + a_{22} x_2 + \cdots + a_{2n} x_n = b_2\\
+      \vdots\\
+      a_{m1} x_1 + a_{m2} x_2 + \cdots + a_{mn} x_n = b_m
+    \end{array}
+    \right\}
+  \end{equation}
+  它使用$m$个方程描述$n$个未知量之间的线性关系。这一线性方程组很容易用矩阵--向量形式简记为
+  \begin{equation}
+    \bf{A} \bf{x} = \bf{b}
+  \end{equation}
+  式中
+  \begin{equation}
+    \bf{A} = \begin{bmatrix}
+      a_{11} & \cdots & a_{1n} \\
+      \vdots & \ddots & \vdots \\
+      a_{m1} & \cdots & a_{mn}
+    \end{bmatrix}
+  \end{equation}
+  称为$m\times n$矩阵，是一个按照长方阵列排列的复数或实数集合；而
+  \begin{equation}
+    \bf{x} = \begin{bmatrix}
+      x_1 \\ \vdots \\ x_n
+    \end{bmatrix}, \quad
+    \bf{b} = \begin{bmatrix}
+      b_1 \\ \vdots \\ b_m
+    \end{bmatrix}
+  \end{equation}
+  分别为$n\times 1$向量和$m\times 1$向量，是按照列方式排列的复数或实数集合，统称列向量。
+
+  类似地，按照行方式排列的复数或实数集合称为行向量。例如，$1\times n$行向量为
+  \begin{equation}
+    \bf{a} = [a_1,\cdots,a_n]
+  \end{equation}
+
+  为了区分实数或复数矩阵，常令 $\bb{R}$ 和$\bb{C}$分别表示实数和复数的集合，$\bb{R}^{m\times n}$和$\bb{C}^{m\times n}$分别表示所有$m\times n$实数和复数矩阵的向量空间。于是，有矩阵的下列符号表示
+  \begin{gather}
+    \bf{A} \in \bb{R}^{m \times n} \quad \Longleftrightarrow \quad \bf{A} = [a_{ij}] = \begin{bmatrix}
+      a_{11} & \cdots & a_{1n} \\
+      \vdots & \ddots & \vdots \\
+      a_{m1} & \cdots & a_{mn}
+    \end{bmatrix}, \quad a_{ij} \in \bb{R}\\
+    \bf{A} \in \bb{C}^{m \times n} \quad \Longleftrightarrow \quad \bf{A} = [a_{ij}] = \begin{bmatrix}
+      a_{11} & \cdots & a_{1n} \\
+      \vdots & \ddots & \vdots \\
+      a_{m1} & \cdots & a_{mn}
+    \end{bmatrix}, \quad a_{ij} \in \bb{C}
+  \end{gather}
+
+  当$m=n$时，称矩阵$\bf{A}$为正方矩阵（square matrix）；若$m<n$，则称矩阵$\bf{A}$为宽矩阵（broad matrix）；当$m>n$时，便称矩阵$\bf{A}$为高矩阵（tall matrix）。
+
+  在物理问题的建模中，矩阵$\bf{A}$往往是物理系统（如线性系统、滤波器、无线信道等）的符号表示；而科学和工程中遇到的向量可分为以下三种\cite{255}：
+  \begin{enumerate}
+    \item {\fangsong 物理向量}\hccwd 泛指既有幅值，又有方向的物理量，如速度、加速度、位移等。
+    \item {\fangsong 几何向量}\hccwd 为了将物理向量可视化，常用带方向的（简称“有向”）线段表示之。这种有向线段称为几何向量。例如，$\bf{v}=\overrightarrow{AB}$表示的有向线段，其起点为$A$，终点为$B$。
+    \item {\fangsong 代数向量}\hccwd 几何向量可以用代数形式表示。例如，若平面上的几何向量$\bf{v}=\overrightarrow{AB}$的起点坐标$A=(a_1,a_2)$，终点坐标$B=(b_1,b_2)$，则该几何向量可以表示为代数形式$\bf{v}=\begin{bsmallmatrix} b_1-a_1 \\ b_2-a_2 \end{bsmallmatrix}$。这种用代数形式表示的几何向量称为代数向量。
+  \end{enumerate}
+  
+  图~\ref{fig:1-1-1} 归纳了向量的分类。
+  \begin{figure}
+    \centering
+    $\text{向量}\begin{cases}
+      \text{物理向量}\\[1.5\ccwd]
+      \text{代数向量} \smash{\begin{cases}
+        \text{常数向量}\\
+        \text{函数向量}\\
+        \text{随机向量}
+      \end{cases}}\\[1.5\ccwd]
+      \text{几何向量}
+    \end{cases}$
+    \caption{向量的分类}\label{fig:1-1-1}
+  \end{figure}
+
+  根据元素取值种类的不同，代数向量又可分为以下三种：
+  \begin{enumerate}
+    \item {\fangsong 常数向量}\hccwd 向量的元素全部为实常数或者复常数，如 $\bf{a}=[1,\allowbreak 5,\allowbreak 4]^{\TT}$ 等。
+    \item {\fangsong 函数向量}\hccwd 向量的元素包含了函数值，如 $\bf{x} = \bigl[ 1,\allowbreak x^2,\allowbreak\cdots,\allowbreak x^n \bigr]^{\TT}$ 等。
+    \item {\fangsong 随机向量}\hccwd 向量的元素为随机变量或随机过程，如 $\bf{x}(n) = [x_1(n),\allowbreak \cdots,\allowbreak x_m(n)]^{\TT}$，其中 $x_1(n),\allowbreak\cdots,\allowbreak x_m(n)$ 是$m$个随机过程或随机信号。
+  \end{enumerate}
+
+  实际应用中遇到的往往是物理向量，而几何向量是物理向量的可视化，代数向量则可看作是物理向量的运算化工具。
+
+  若令
+  \begin{equation}
+    \bf{a}_1 = \begin{bmatrix}
+      a_{11} \\ \vdots \\ a_{m1}
+    \end{bmatrix},\quad
+    \bf{a}_2 = \begin{bmatrix}
+      a_{12} \\ \vdots \\ a_{m2}
+    \end{bmatrix},\quad
+    \cdots,\quad
+    \bf{a}_n = \begin{bmatrix}
+      a_{1n} \\ \vdots \\ a_{mn}
+    \end{bmatrix},\quad
+  \end{equation}
+  则矩阵$\bf{A}$可以用列向量记作
+  \begin{equation}
+    \bf{A} = [\bf{a}_1,\bf{a}_2,\cdots,\bf{a}_n]
+  \end{equation}
+
+  一个 $n\times n$ 正方矩阵 $\bf{A}$ 的主对角线是指从左上角到右下角沿 $i=j$, $j=1,\allowbreak \cdots,\allowbreak n$ 相连接的线段。位于主对角线上的元素称为 $\bf{A}$ 的对角元素，它们是 $a_{ii}$, $i=1,\allowbreak\cdots,\allowbreak n$。
+
+  矩阵 $\bf{A}$ 从右上角到左下角沿
+  \[ (i,n-i+1),\quad i=1,2,\cdots,n \]
+  相连接的线段称为矩阵 $\bf{A}$ 的交叉对角线（也称次对角线）。
+
+  主对角线以外元素全部为零的 $n\times n$ 矩阵称为对角矩阵，记作
+  \begin{equation}
+    \bf{D} = \diag(d_{11},\cdots,d_{nn})
+  \end{equation}
+  若对角矩阵主对角线元素全部等于 $1$，则称其为单位矩阵，用符号 $\bf{I}_{n \times n}$ 示之。所有元素为零的 $m\times n$ 矩阵称为零矩阵，记为 $\bf{O}_{m \times n}$。
+
+  一个全部元素为零的向量称为零向量。当维数已经明了或者不紧要时，常省去单位矩阵、零矩阵和零向量表示维数的下标，将它们分别简记为 $\bf{I}$, $\bf{O}$ 和 $\bup{0}$。
+
+  只有一个元素为 1，其他元素皆等于 0 的列向量称为基本向量，即
+  \begin{equation}
+    \bf{e}_1 = \begin{bmatrix}
+      1 \\ 0 \\ 0 \\ \vdots \\ 0
+    \end{bmatrix},\quad
+    \bf{e}_2 = \begin{bmatrix}
+      0 \\ 1 \\ 0 \\ \vdots \\ 0
+    \end{bmatrix},\quad
+    \cdots,\quad
+    \bf{e}_n = \begin{bmatrix}
+      0 \\ 0 \\ 0 \\ \vdots \\ 1
+    \end{bmatrix}
+  \end{equation}
+  显然，$n\times n$ 单位矩阵 $\bf{I}$ 可以用 $n$ 个基本向量表示为 $\bf{I} = [\bf e_1, \bf e_2, \cdots, \bf e_n]$。
+
+  在本书中，我们经常会用到以下矩阵符号：
+
+  $\bf A(i,:)$：$\bf A$ 的第 $i$ 行；
+
+  $\bf A(:,j)$：$\bf A$ 的第 $\bf j$ 列；
+
+  $\bf A(p:q, r:s)$：由 $\bf A$ 的第 $p$ 行到第 $q$ 行，第 $r$ 列到第 $s$ 列组成的 $(q-\allowbreak p+\allowbreak 1)\times(s-r+1)$ 子矩阵。例如
+  \[ \bf A(3:6, 2:4) = \begin{bmatrix}
+    a_{32} & a_{33} & a_{34} \\
+    a_{42} & a_{43} & a_{44} \\
+    a_{52} & a_{53} & a_{54} \\
+    a_{62} & a_{63} & a_{64}
+  \end{bmatrix} \]
+
+  分块矩阵是一个以矩阵作元素的矩阵
+  \[ \bf A = [\bf A_{ij}] = \begin{bmatrix}
+    \bf A_{11}  & \bf A_{12}  & \cdots  & \bf A_{1n} \\
+    \bf A_{21}  & \bf A_{22}  & \cdots  & \bf A_{2n} \\
+    \vdots      & \vdots      & \ddots  & \vdots \\
+    \bf A_{m1}  & \bf A_{m2}  & \cdots  & \bf A_{mn}
+  \end{bmatrix} \]
+\end{document}
